@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Web Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">  
+</head>
+<body>
+    <div><h1>Posts by {{user.name}}</h1>
+    <a href="/quotes">Dashboard</a>
+    <a href="/logout">Logout</a>
+    </div>
+    <div>
+        {% for post in posts %}
+            <p>{{post.author}}: "{{post.content}}"</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

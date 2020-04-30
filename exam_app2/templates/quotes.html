@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Web Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">  
+</head>
+<body>
+    <div>
+        <h1>Welcome, {{user.name}}!</h1>
+        <a href="/logout">Logout</a>
+    </div>
+    <div id='container'>    
+        <div id='first'>
+            <h3>Quotable Quotes</h3>
+            <div id="quotablecont">
+                {% for otherQuote in otherQuotes %}
+                <div class="quote">
+                        {% if otherQuote.contributor.id == user.id %}
+                            <div><a href="/quotes/{{otherQuote.id}}">Edit</a> | <a href="/delete/{{otherQuote.id}}">Delete</a></div>
+                        {% endif %}
+                    <div class="quotecont">
+                        <p>{{otherQuote.author}}: "{{otherQuote.content}}"</p>
+                    </div>
+                    <div class="actions">
+                        <p>Posted by <a href="/users/{{otherQuote.contributor.id}}">{{otherQuote.contributor.name}}</a></p>
+                        <form action="/favorite" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="quoteid" value='{{otherQuote.id}}'>
+                            <input type="submit" value="Add to Favorites">
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div id='second'>
+            <h3>Your Favorites</h3>
+                <div id="yourfavorites">
+                {% for userFave in userFaves %}
+                <div class="quote">
+                        {% if userFave.contributor.id == user.id %}
+                            <div><a href="/quotes/{{userFave.id}}">Edit</a> | <a href="/delete/{{otherQuote.id}}">Delete</a></div>
+                        {% endif %}
+                    <div class="quotecont">
+                        <p>{{userFave.author}}: "{{userFave.content}}"</p>
+                    </div>
+                    <div class="actions">
+                        <p>Posted by <a href="/users/{{userFave.contributor.id}}">{{userFave.contributor.name}}</a></p>
+                        <form action="/remove" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="quoteid" value='{{userFave.id}}'>
+                            <input type="submit" value="Remove from Favorites">
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div>
+                <form action="/add_quote" method="post">
+                    {% csrf_token %}
+                    <h3>Contribute a Quote</h3>
+                    <label for="author">Quoted By</label>
+                    <input type="text" name="author" id="author"><br>
+                    <label for="content">Message</label>
+                    <textarea id="content" name="content" rows="5" cols="33"></textarea><br>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

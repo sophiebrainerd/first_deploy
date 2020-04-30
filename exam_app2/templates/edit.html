@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Web Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">  
+</head>
+<body>
+    <div><h1>Edit Quote</h1>
+    </div>
+    <div class="edit">
+        <form action="/edit/{{thisQuote.id}}" method="POST">
+            {% csrf_token %}
+            <label for="author">Quoted By</label>
+            <input type="text" id="author" name="author" value="{{thisQuote.author}}"><br>
+            <label for="content">Message</label>
+            <textarea id="content" name="content" rows="5" cols="33">{{thisQuote.content}}</textarea>
+            <input class="button" type="submit" value="Submit">
+        </form>
+        <form action="/quotes" method="get">
+            <input class="button" type="submit" value="Cancel">
+        </form>
+    </div>
+    <div>
+        <a href="/quotes">Dashboard</a>
+        <a href="/logout">Logout</a>
+    </div>
+    
+</body>
+</html>
