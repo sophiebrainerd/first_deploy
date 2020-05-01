@@ -98,8 +98,6 @@ def remove(request):
 
 def delete(request, quoteid):
     thisQuote = Quote.objects.get(id = quoteid)
-    person = thisQuote.contributor
-    person.contributions.remove(thisQuote)
     thisQuote.delete()
     return redirect('/quotes')
 

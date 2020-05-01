@@ -52,7 +52,7 @@ class User(models.Model):
     objects = UserManager()
 
 class Quote(models.Model):
-    contributor = models.ForeignKey(User, related_name="contributions", on_delete=models.PROTECT)
+    contributor = models.ForeignKey(User, related_name="contributions", on_delete=models.CASCADE)
     author = models.CharField(max_length = 255)
     content = models.TextField()
     likes = models.ManyToManyField(User, related_name="favorites")

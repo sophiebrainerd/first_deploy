@@ -42,7 +42,7 @@
                 {% for userFave in userFaves %}
                 <div class="quote">
                         {% if userFave.contributor.id == user.id %}
-                            <div><a href="/quotes/{{userFave.id}}">Edit</a> | <a href="/delete/{{otherQuote.id}}">Delete</a></div>
+                            <div><a href="/quotes/{{userFave.id}}">Edit</a> | <a href="/delete/{{userFave.id}}">Delete</a></div>
                         {% endif %}
                     <div class="quotecont">
                         <p>{{userFave.author}}: "{{userFave.content}}"</p>
@@ -59,6 +59,13 @@
                 {% endfor %}
             </div>
             <div>
+                {% if messages %}
+                    <ul class="messages">    
+                        {% for message in messages %}    
+                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+                        {% endfor %}
+                    </ul>
+                {% endif %}
                 <form action="/add_quote" method="post">
                     {% csrf_token %}
                     <h3>Contribute a Quote</h3>
